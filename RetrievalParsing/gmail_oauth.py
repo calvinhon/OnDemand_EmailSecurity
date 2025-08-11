@@ -2,6 +2,7 @@ import os
 import base64
 import sqlite3
 import re
+from io import StringIO
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -12,6 +13,18 @@ from email import message_from_bytes
 # Scope: Read-only Gmail access
 SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
+def get_oauth_config():
+    return {
+        "installed": {
+            "client_id": os.environ.get("GMAIL_CLIENT_ID"),
+            "client_secret": os.environ.get("GMAIL_CLIENT_SECRET"),
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+            "redirect_uris": ["http://localhost"]
+        }
+    }
+
 def authorize():
     creds = None
     if os.path.exists('RetrievalParsing/secrets/token.json'):
@@ -21,7 +34,8 @@ def authorize():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('RetrievalParsing/secrets/client_secret_demo.json', SCOPES)
+            config = get_oauth_config()
+            flow = InstalledAppFlow.from_client_config(config, SCOPES)
             creds = flow.run_local_server(port=0, open_browser=False)
         with open('RetrievalParsing/secrets/token.json', 'w') as token_file:
             token_file.write(creds.to_json())
