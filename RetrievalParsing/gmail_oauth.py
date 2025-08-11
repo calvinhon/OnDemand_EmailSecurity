@@ -21,7 +21,7 @@ def authorize():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('RetrievalParsing/secrets/client_secret.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file('RetrievalParsing/secrets/client_secret_demo.json', SCOPES)
             creds = flow.run_local_server(port=0, open_browser=False)
         with open('RetrievalParsing/secrets/token.json', 'w') as token_file:
             token_file.write(creds.to_json())
