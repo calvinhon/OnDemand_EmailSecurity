@@ -13,10 +13,12 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt \
+    && pip install google-cloud-secret-manager
 
 COPY . .
 
 EXPOSE 3000
 
-CMD ["python", "gmail_oauth.py"]
+CMD ["python", "RetrievalParsing/gmail_oauth.py"]

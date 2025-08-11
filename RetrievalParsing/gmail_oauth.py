@@ -14,16 +14,16 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 def authorize():
     creds = None
-    if os.path.exists('secrets/token.json'):
-        creds = Credentials.from_authorized_user_file('secrets/token.json', SCOPES)
+    if os.path.exists('RetrievalParsing/secrets/token.json'):
+        creds = Credentials.from_authorized_user_file('RetrievalParsing/secrets/token.json', SCOPES)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('secrets/client_secret.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file('RetrievalParsing/secrets/client_secret.json', SCOPES)
             creds = flow.run_local_server(port=0, open_browser=False)
-        with open('secrets/token.json', 'w') as token_file:
+        with open('RetrievalParsing/secrets/token.json', 'w') as token_file:
             token_file.write(creds.to_json())
 
     return creds
