@@ -1,11 +1,8 @@
 import sqlite3
 from checker import IPQS, GoogleSafeBrowsing  
 
-IPQS_API_KEY = 'your_ipqs_key'
-GSB_API_KEY = 'your_gsb_key'
-
-ipqs = IPQS(api_key=IPQS_API_KEY)
-gsb = GoogleSafeBrowsing(api_key=GSB_API_KEY)
+ipqs = IPQS(api_key=IPQS_KEY)
+gsb = GoogleSafeBrowsing(api_key=GOOGLE_KEY)
 
 conn = sqlite3.connect('emails.db')
 c = conn.cursor()
