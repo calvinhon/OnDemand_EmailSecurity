@@ -19,6 +19,6 @@ RUN pip install --upgrade pip \
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3000 8080
 
 CMD ["python", "RetrievalParsing/gmail_oauth.py"]
