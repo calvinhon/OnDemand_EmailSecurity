@@ -15,13 +15,13 @@ SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
 
 def get_oauth_config():
     return {
-        "installed": {
+        "web": {
             "client_id": os.environ.get("GMAIL_CLIENT_ID"),
             "client_secret": os.environ.get("GMAIL_CLIENT_SECRET"),
             "auth_uri": "https://accounts.google.com/o/oauth2/auth",
             "token_uri": "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "redirect_uris": ["http://localhost"]
+            "redirect_uris": ["http://localhost:3000"]
         }
     }
 
@@ -36,7 +36,7 @@ def authorize():
         else:
             config = get_oauth_config()
             flow = InstalledAppFlow.from_client_config(config, SCOPES)
-            creds = flow.run_local_server(port=0, open_browser=False)
+            creds = flow.run_local_server(port=3000, open_browser=False)
         with open('RetrievalParsing/secrets/token.json', 'w') as token_file:
             token_file.write(creds.to_json())
 
